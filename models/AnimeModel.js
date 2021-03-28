@@ -11,7 +11,6 @@ const AnimeSchema = mongoose.Schema(
     released: String,
     status: String,
     otherName: String,
-    episodes: [Object],
   },
   { timestamps: true }
 );
