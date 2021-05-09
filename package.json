@@ -13,6 +13,7 @@
     "dotenv": "^8.2.0",
     "mongoose": "^5.12.2",
     "request-x-ray": "^0.1.4",
+    "slugify": "^1.5.2",
     "x-ray-scraper": "^3.0.6"
   }
 }

@@ -1,18 +1,29 @@
 const mongoose = require("mongoose");
-const AnimeSchema = mongoose.Schema(
+const slugify = require("slugify");
+const animeSchema = mongoose.Schema(
   {
-    title: { type: String },
-    image: String,
-    slug: String,
+    title: String,
     type: String,
     summary: String,
-    totalEpisodes: Number,
-    genre: Array,
+    genre: [String],
     released: String,
     status: String,
-    otherName: String,
+    otherName: [String],
+    animeID: String,
+    totalEpisodes: Number,
+    image: String,
+    slug: String,
+    category: String,
+    episodes: [{ episodeNo: Number, link: String }],
   },
   { timestamps: true }
 );
 
-module.exports = Anime = mongoose.model("anime", AnimeSchema);
+animeSchema.pre("save", function (next) {
+  this.slug = slugify(`${this.title}`, {
+    lower: true,
+  });
+  next();
+});
+
+module.exports = Anime = mongoose.model("Anime", animeSchema);
