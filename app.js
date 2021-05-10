@@ -1,6 +1,6 @@
 const x = require("x-ray-scraper");
-const Anime = require("./models/AnimeModel");
 const mongoose = require("mongoose");
+const Anime = require("./models/AnimeModel");
 const dotenv = require("dotenv");
 const makeDriver = require("request-x-ray");
 dotenv.config({ path: "./config.env" });
@@ -99,6 +99,7 @@ const recentAnime = async () => {
         : parseInt(data[i].totalEpisodes.split("-")[1]);
 
     const anime = await Anime.findOne({ title: data[i].title });
+
     if (anime) {
       if (anime.totalEpisodes === data[i].totalEpisodes) {
         continue;
@@ -119,8 +120,8 @@ const recentAnime = async () => {
         anime.episodes = ep
           .reverse()
           .map(({ episodeNo, link }) => ({ episodeNo, link }));
-        console.log(anime);
-        await anime.save();
+        anime.totalEpisodes = data[i].totalEpisodes;
+        anime.save();
       }
     } else {
       console.log("creating");
@@ -142,11 +143,11 @@ const recentAnime = async () => {
         .reverse()
         .map(({ episodeNo, link }) => ({ episodeNo, link }));
       data[i].type = ep.length > 1 ? ep[0].type : "SUB";
-      // console.log(data[i]);
+      console.log(data[i], "creating");
       await Anime.create(data[i]);
     }
   }
-  // console.log(data);
+
   return data;
 };
 

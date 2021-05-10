@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const slugify = require("slugify");
+const slug = require("slug");
 const animeSchema = mongoose.Schema(
   {
     title: String,
@@ -20,9 +20,9 @@ const animeSchema = mongoose.Schema(
 );
 
 animeSchema.pre("save", function (next) {
-  this.slug = slugify(`${this.title}`, {
-    lower: true,
-  });
+  console.log("saving.............. before");
+  this.slug = slug(this.title);
+  console.log("saving.............. afer");
   next();
 });
 
