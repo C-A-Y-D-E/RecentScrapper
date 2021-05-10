@@ -101,10 +101,10 @@ const recentAnime = async () => {
     const anime = await Anime.findOne({ title: data[i].title });
     if (anime) {
       if (anime.totalEpisodes === data[i].totalEpisodes) {
-        console.log("leaving loop");
         continue;
       } else {
         console.log("caught one");
+
         const ep = await x(
           `https://ajax.gogo-load.com/ajax/load-list-episode?ep_start=0&ep_end=${data[i].totalEpisodes}&id=${data[i].animeID}`,
           "li",
