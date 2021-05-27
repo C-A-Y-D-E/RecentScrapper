@@ -1,5 +1,6 @@
 const x = require("x-ray-scraper");
 const mongoose = require("mongoose");
+const cron = require("node-cron");
 const Anime = require("./models/AnimeModel");
 const dotenv = require("dotenv");
 const makeDriver = require("request-x-ray");
@@ -151,4 +152,21 @@ const recentAnime = async () => {
   return data;
 };
 
-recentAnime();
+
+
+cron.schedule("*/10 * * * *", () => {
+  console.log('Running Scheduler --------------------------')         
+  recentAnime();
+});
+
+var server = http.createServer(function (req, res) {
+  res.writeHead(200, {});
+  res.end("response");
+  badLoggingCall("sent response");
+  console.log("sent response");
+});
+process.on("uncaughtException", function (e) {
+  console.log(e);
+});
+const PORT = process.env.PORT || 5000;
+server.listen(PORT);
